@@ -44,7 +44,7 @@ We'll search for strings inside of our fastq files. Let's first make sure we are
 directory.
 
 ~~~
-$ cd ~/shell_data/untrimmed_fastq
+$ cd ~/shell_data/fq
 ~~~
 {: .bash}
 
@@ -62,7 +62,7 @@ Suppose we want to see how many reads in our file have really bad segments conta
 {: .callout}
 
 ~~~
-$ grep NNNNNNNNNN SRR098026.fastq
+$ grep NNN Ecan_13.fastq
 ~~~
 {: .bash}
 
@@ -80,23 +80,23 @@ each match and the `-A` argument to return a specific number of lines after each
 matching line so we add `-B1 -A2` to our grep command.
 
 ~~~
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq
+$ grep -B1 -A2 NNN Ecan_13.fq 
 ~~~
 {: .bash}
 
 One of the sets of lines returned by this command is: 
 
 ~~~
-@SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35
-CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-+SRR098026.177 HWUSI-EAS1599_1:2:1:1:2025 length=35
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+@K00325:73:HJCGJBBXX:8:1103:16894:1156
+CATNAGCATCGATAGGGTATCGCAGGGTGAGAATACCACGCTTGGACTGGGCCTCATCACCGACATAGGAGTCCTTCTGACCCATACCAATCATGNTACCTTGNTGACGGNGACGGCNGNNNATNGANGNNANANCANCTCNNGGNNCGT
++
+AAF#FJJJ7<FJFJJJJFJJJJJJJJJFFJJFFFJJJJJJJFJJAFJJFFJJJAJFFJJJJJJJJFJJJJJJJJJFFJJJJJJJJFJJJJJFJJJ#FJJFJJJ#JJJJJJ#JFJJJ<#J###FF#JJ#J##F#A#FJ#J<7##FF##FA7
 ~~~
 {: .output}
 
 > ## Exercise
 >
-> 1. Search for the sequence `GNATNACCACTTCC` in the `SRR098026.fastq` file.
+> 1. Search for the sequence `NNAN` in the `Ecan_13.fq` file.
 > Have your search return all matching lines and the name (or identifier) for each sequence
 > that contains a match.
 > 
@@ -105,8 +105,8 @@ CNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
 > that contains a match.
 > 
 > > ## Solution  
-> > 1. `grep -B1 GNATNACCACTTCC SRR098026.fastq`  
-> > 2. `grep -B1 AAGTT *.fastq`
+> > 1. `grep -B1 NNAN Ecan_13.fq`  
+> > 2. `grep -B1 AAGTT *.fq`
 > >
 > {: .solution}
 {: .challenge}
@@ -127,10 +127,10 @@ The command for redirecting output to a file is `>`.
 
 Let's try out this command and copy all the records (including all four lines of each record) 
 in our FASTQ files that contain 
-'NNNNNNNNNN' to another file called `bad_reads.txt`.
+'NNN' to another file called `bad_reads.txt`.
 
 ~~~
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq > bad_reads.txt
+$ grep -B1 -A2 NNN Ecan_11.fq > bad_reads.txt
 ~~~
 {: .bash}
 
@@ -139,7 +139,7 @@ $ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq > bad_reads.txt
 > You might be confused about why we're naming our output file with a `.txt` extension. After all,
 > it will be holding FASTQ formatted data that we're extracting from our FASTQ files. Won't it 
 > also be a FASTQ file? The answer is, yes - it will be a FASTQ file and it would make sense to 
-> name it with a `.fastq` extension. However, using a `.fastq` extension will lead us to problems
+> name it with a `.fq` extension. However, using a `.fq` extension will lead us to problems
 > when we move to using wildcards later in this episode. We'll point out where this becomes
 > important. For now, it's good that you're thinking about file extensions! 
 > 
@@ -159,7 +159,7 @@ $ wc bad_reads.txt
 {: .bash}
 
 ~~~
-  537  1073 23217 bad_reads.txt
+  4 3   344 bad_reads.txt
 ~~~
 {: .output}
 
@@ -172,7 +172,7 @@ $ wc -l bad_reads.txt
 {: .bash}
 
 ~~~
-537 bad_reads.txt
+4 bad_reads.txt
 ~~~
 {: .output}
 
@@ -181,19 +181,19 @@ four to get the number of sequences that match our search pattern.
 
 > ## Exercise
 >
-> How many sequences in `SRR098026.fastq` contain at least 3 consecutive Ns?
+> How many sequences in `Ecan_13.fq` contain at least 4 consecutive Ts?
 >
 >> ## Solution
 >>  
 >>
 >> ~~~
->> $ grep NNN SRR098026.fastq > bad_reads.txt
->> $ wc -l bad_reads.txt
+>> $ grep TTTT Ecan_13.fq.fastq > quad_T.txt
+>> $ wc -l quad_T.txt
 >> ~~~
 >> {: .bash}
 >> 
 >> ~~~
->> 249
+>> 8059
 >> ~~~
 >> {: .output}
 >>
@@ -207,18 +207,18 @@ This is called "overwriting" and, just like you don't want to overwrite your vid
 of your kid's first birthday party, you also want to avoid overwriting your data files.
 
 ~~~
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq > bad_reads.txt
+$ grep -B1 -A2 NNN Ecan_13.fastq > bad_reads.txt
 $ wc -l bad_reads.txt
 ~~~
 {: .bash}
 
 ~~~
-537 bad_reads.txt
+4 bad_reads.txt
 ~~~
 {: .output}
 
 ~~~
-$ grep -B1 -A2 NNNNNNNNNN SRR097977.fastq > bad_reads.txt
+$ grep -B1 -A2 NNNNNNNNNN Ean_02.fastq > bad_reads.txt
 $ wc -l bad_reads.txt
 ~~~
 {: .bash}
@@ -236,24 +236,24 @@ We can avoid overwriting our files by using the command `>>`. `>>` is known as t
 append new output to the end of a file, rather than overwriting it.
 
 ~~~
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq > bad_reads.txt
+$ grep -B1 -A2 NNN Ecan_13.fastq > bad_reads.txt
 $ wc -l bad_reads.txt
 ~~~
 {: .bash}
 
 ~~~
-537 bad_reads.txt
+1 bad_reads.txt
 ~~~
 {: .output}
 
 ~~~
-$ grep -B1 -A2 NNNNNNNNNN SRR097977.fastq >> bad_reads.txt
+$ grep -B1 -A2 NNN Ecan_01.fastq >> bad_reads.txt
 $ wc -l bad_reads.txt
 ~~~
 {: .bash}
 
 ~~~
-537 bad_reads.txt
+2 bad_reads.txt
 ~~~
 {: .output}
 
@@ -262,30 +262,30 @@ The output of our second call to `wc` shows that we have not overwritten our ori
 We can also do this with a single line of code by using a wildcard. 
 
 ~~~
-$ grep -B1 -A2 NNNNNNNNNN *.fastq > bad_reads.txt
+$ grep -B1 -A2 NNN *.fq > bad_reads.txt
 $ wc -l bad_reads.txt
 ~~~
 {: .bash}
 
 ~~~
-537 bad_reads.txt
+14 bad_reads.txt
 ~~~
 {: .output}
 
 > ## File extensions - part 2
 > 
-> This is where we would have trouble if we were naming our output file with a `.fastq` extension. 
-> If we already had a file called `bad_reads.fastq` (from our previous `grep` practice) 
-> and then ran the command above using a `.fastq` extension instead of a `.txt` extension, `grep`
+> This is where we would have trouble if we were naming our output file with a `.fq` extension. 
+> If we already had a file called `bad_reads.fq` (from our previous `grep` practice) 
+> and then ran the command above using a `.fq` extension instead of a `.txt` extension, `grep`
 > would give us a warning. 
 > 
 > ~~~
-> grep -B1 -A2 NNNNNNNNNN *.fastq > bad_reads.fastq
+> grep -B1 -A2 NNN*.fq > bad_reads.fq
 > ~~~
 > {: .bash}
 > 
 > ~~~
-> grep: input file ‘bad_reads.fastq’ is also the output
+> grep: input file ‘bad_reads.fq’ is also the output
 > ~~~
 > {: .output}
 > 
@@ -300,26 +300,6 @@ We might also be interested in finding any reads with at least two shorter strin
 nucleotides, separated by any number of known nucleotides. Reads with more than one region of 
 ambiguity like this might be poor enough to not pass our quality filter. We can search for these
 reads using a wildcard within our search string for `grep`. 
-
-> ## Exercise
-> 
-> How many reads in the `SRR098026.fastq` file contain at least two regions of 5 unknown
-> nucleotides in a row, separated by any number of known nucleotides?
->
->> ## Solution
->> 
->> ~~~
->> $ grep "NNNNN*NNNNN" SRR098026.fastq > bad_reads_2.txt
->> $ wc -l bad_reads_2.txt
->> ~~~
->> {: .bash}
->> 
->> ~~~
->> 186 bad_reads_2.txt
->> ~~~
->> {: .output}
-> {: .solution}
-{: .challenge}
 
 
 We've now created two separate files to store the results of our search for reads matching 
@@ -339,7 +319,7 @@ look at it, like we can with `less`. Well it turns out that we can! We can redir
 from our `grep` call through the `less` command.
 
 ~~~
-$ grep -B1 -A2 NNNNNNNNNN SRR098026.fastq | less
+grep -B1 -A2 ATG Ecan_13.fq  | less
 ~~~
 {: .bash}
 
@@ -358,19 +338,19 @@ efficiently. Let's take a few minutes to practice.
 > ## Exercise
 >
 > Now that we know about the pipe (`|`), write a single command to find the number of reads 
-> in the `SRR098026.fastq` file that contain at least two regions of 5 unknown
-> nucleotides in a row, separated by any number of known nucleotides. Do this without creating 
-> a new file.
+> in the `Ecan_13.fq` file that contain at the nucleotide sequence "ATG"
+> in a row. Do this without creating a new file.
 >
 >> ## Solution
 >> 
 >> ~~~
->> $ grep "NNNNN*NNNNN" SRR098026.fastq | wc -l
+>> grep -B1 -A2 ATG Ecan_13.fq  | wc 0l
+>> 
 >> ~~~
 >> {: .bash}
 >>
 >> ~~~
->> 186
+>> 38359
 >> ~~~
 >> {: .output}
 >> 
@@ -383,7 +363,7 @@ Let's use the tools we've added to our tool kit so far, along with a few new one
 
 ~~~
 $ cd
-$ cd shell_data/sra_metadata
+$ cd shell_data/metadata
 ~~~
 {: .bash}
 
@@ -401,12 +381,12 @@ column headers are in the first row of our data table, so we can use `head` with
 look at just the first row of the file.
 
 ~~~
-$ head -n 1 SraRunTable.txt
+$ head -n 1 library_info.tsv
 ~~~
 {: .bash}
 
 ~~~
-BioSample_s	InsertSize_l	LibraryLayout_s	Library_Name_s	LoadDate_s	MBases_l	MBytes_l	ReleaseDate_s Run_s SRA_Sample_s Sample_Name_s Assay_Type_s AssemblyName_s BioProject_s Center_Name_s Consent_s Organism_Platform_s SRA_Study_s g1k_analysis_group_s g1k_pop_code_s source_s strain_s
+file	sample_id	spp	ploidy	treatment	genotype	read_type	insert.size	nreads
 ~~~
 {: .output}
 
@@ -417,7 +397,7 @@ column our data is in, we can use a command called `cut` to extract the column o
 Because this is pretty hard to read, we can look at just a few column header names at a time by combining the `|` redirect and `cut`.
 
 ~~~
-$ head -n 1 SraRunTable.txt | cut -f1-4
+$ head -n 1 library_info.tsv | cut -f1-4
 ~~~
 {: .bash}
 
@@ -425,7 +405,7 @@ $ head -n 1 SraRunTable.txt | cut -f1-4
 in our case, column numbers. Here we are extracting the first four column names.
 
 ~~~
-BioSample_s InsertSize_l      LibraryLayout_s	Library_Name_s    
+file	sample_id	spp	ploidy 
 ~~~
 {: .output}
 
@@ -434,35 +414,38 @@ of the data from that column. We can use `cut` to extract only the 3rd column fr
 then use the `|` operator with `head` to look at just the first few lines of data in that column.
 
 ~~~
-$ cut -f3 SraRunTable.txt | head -n 10
+$ cut -f3 library_info.tsv 
 ~~~
 {: .bash}
 
 ~~~
-LibraryLayout_s
-SINGLE
-SINGLE
-SINGLE
-SINGLE
-SINGLE
-SINGLE
-SINGLE
-SINGLE
-PAIRED
+spp
+Eam
+Eam
+Eam
+Eam
+Eel
+Eel
+Eel
+Eel
+H1
+H1
+H1
+H2
+H2
+H2
 ~~~
 {: .output}
 
-We can see that there are (at least) two categories, SINGLE and PAIRED.  We want to search all entries in this column
-for just PAIRED and count the number of matches. For this, we will use the `|` operator twice
-to combine `cut` (to extract the column we want), `grep` (to find matches) and `wc` (to count matches).
-
+We can see that there 4 species in this data. If we want to count how many
+samples there are for a given species we can use grep.
 ~~~
-$ cut -f3 SraRunTable.txt | grep PAIRED | wc -l
+$ cut -f3 library_info.tsv | grep Eel | wc -l
 ~~~
 {: .bash}
 
 ~~~
-2
+4
 ~~~
 {: .output}
 
@@ -471,16 +454,16 @@ sequencing.
 
 > ## Exercise
 >
-> How many single-end libraries are in our samples? 
+> How many files are there for H1 and H2 combined<? 
 >
 >> ## Solution
 >> ~~~
->> $ cut -f3 SraRunTable.txt | grep SINGLE | wc -l
+>> $ cut -f3 library_info.tsv | grep H | wc -l
 >> ~~~
 >> {: .bash}
 >> 
 >> ~~~
->> 35
+>> 6
 >> ~~~
 >> {: .output}
 >>
@@ -499,138 +482,90 @@ For example, if we want to know how many samples of each library type are record
 we can extract the third column (with `cut`), and pipe that output into `sort`. 
 
 ~~~
-$ cut -f3 SraRunTable.txt | sort
+$ cut -f3 libary_info.tsv | sort
 ~~~
 {: .bash}
 
-If you look closely, you might see that we have one line that reads "LibraryLayout_s". This is the 
+If you look closely, you might see that we have one line that reads "spp". This is the 
 header of our column. We can discard this information using the `-v` flag in `grep`, which means 
 return all the lines that **do not** match the search pattern.
 
 ~~~
-$ cut -f3 SraRunTable.txt | grep -v LibraryLayout_s | sort
+$ cut -f3 library_info.tsv | grep -v "spp" | sort
+ 
 ~~~
 {: .bash}
 
-This command returns a sorted list (too long to show here) of PAIRED and SINGLE values. We can use
-the `uniq` command to see a list of all the different categories that are present. If we do this,
-we see that the only two types of libraries we have present are labelled PAIRED and SINGLE. There 
-aren't any other types in our file.
+This command returns a sorted list of the spp column. We can read all of this output fairly
+simply, but sometime we deal with very large files. It can be useful to identify
+all of the unique elements form a long dat coloum. Let's use the `uniq` command to see a list of all the different species that are present. 
 
 ~~~
-$ cut -f3 SraRunTable.txt | grep -v LibraryLayout_s | sort | uniq
+$ cut -f3 library_info.tsv | grep -v "spp" | sort | uniq
 ~~~
 {: .bash}
 
 ~~~
-PAIRED
-SINGLE
+Eam
+Eel
+H1
+H2
 ~~~
 {: .output}
 
 If we want to count how many of each we have, we can use the `-c` (count) flag for `uniq`. 
 
 ~~~
-$ cut -f3 SraRunTable.txt | grep -v LibraryLayout_s | sort | uniq -c
+$ cut -f3 library_info.tsv | grep -v "spp" | sort | uniq -c
 ~~~
 {: .bash}
 
 ~~~
-2 PAIRED
-35 SINGLE
+      4 Eam
+      4 Eel
+      3 H1
+      3 H2
 ~~~
 {: .output}
 
 > ## Exercise
 >
-> 1. How many different sample load dates are there?   
-> 2. How many samples were loaded on each date?  
+> 1. How many different polidies are there?   
+> 2. What is the largst number of reads for a file?  
 > 
 >> ## Solution
 >>  
->> 1. There are two different sample load dates.  
+>> 1. Let's try this oen together.
 >>
->>    ~~~
->>    cut -f5 SraRunTable.txt | grep -v LoadDate_s | sort | uniq
->>    ~~~
->>    {: .bash}
->>
->>    ~~~
->>    25-Jul-12
->>    29-May-14
->>    ~~~
->>    {: .output}
->>
->> 2. Six samples were loaded on one date and 31 were loaded on the other.
->>
->>    ~~~
->>    cut -f5 SraRunTable.txt | grep -v LoadDate_s | sort | uniq -c
->>    ~~~
->>    {: .bash}
->>
->>    ~~~
->>     6 25-Jul-12
->>    31 29-May-14
->>    ~~~
->>    {: .output}
+>>   
 >>
 > {: .solution}
 {: .challenge}
 
 
-#### Can we sort the file by library layout and save that sorted information to a new file?  
+#### Can we sort the file by number of reads and save that sorted information to a new file?  
 
-We might want to re-order our entire metadata table so that all of the paired-end samples appear
-together and all of the single-end samples appear together. We can use the `-k` (key) flag for `sort` to
-sort based on a particular column. This is similar to the `-f` flag for `cut`.
+We might want to process the smallest files first, and it would
+there fore help to order the file from least to most reads. We can use the `-k` 
+(key) flag for `sort` to sort based on a particular column. This is similar to 
+the `-f` flag for `cut`.
 
-Let's sort based on the third column (`-k3`) and redirect our output to a new file.
+Let's sort based on the ninth column (`-k9`) and redirect our output to a new file.
 
 ~~~
-$ sort -k3 SraRunTable.txt > SraRunTable_sorted_by_layout.txt
+$ sort -k9 -n library_info.tsv > libs_read_sorted.tsv
 ~~~
 {: .bash}
 
-#### Can we extract only paired-end records into a new file?  
+#### Can we extract only `Eam` records into a new file?  
 
 We also might want to extract the information for all samples that meet a specific criterion 
-(for example, are paired-end) and put those lines of our table in a new file. First, we need
-to check to make sure that the pattern we're searching for ("PAIRED") only appears in the column
-where we expect it to occur (column 3). We know from earlier that there are only two paired-end
-samples in the file, so we can `grep` for "PAIRED" and see how many results we get.
-
+(for example, are paired-end) and put those lines of our table in a new file. 
 ~~~
-$ grep PAIRED SraRunTable.txt | wc -l
+$ grep Eam library_info.tsv > library_info_Eam_only.tsv 
 ~~~
 {: .bash}
 
-~~~
-2
-~~~
-{: .output}
-
-There are only two results, so we can use "PAIRED" as our search term to extract the paired-end 
-samples to a new file.
-
-~~~
-$ grep PAIRED SraRunTable.txt > SraRunTable_only_paired_end.txt
-~~~
-{: .bash}
-
-> ## Exercise
-> Sort samples by load date and export each of those sets to a new file (one new file per
-> unique load date). 
-> 
-> > ## Solution
-> > 
-> > ~~~ 
-> > $ grep 25-Jul-12 SraRunTable.txt > SraRunTable_25-Jul-12.txt
-> > $ grep 29-May-14 SraRunTable.txt > SraRunTable_29-May-14.txt
-> > ~~~
-> > {: .bash}
-> >
-> {: .solution}
-{: .challenge}
 
 ## Writing for loops
 
@@ -648,12 +583,12 @@ as a variable name and substitute its value in its place, rather than treat it a
 Let's write a for loop to show us the first two lines of the fastq files we downloaded earlier. You will notice shell prompt changes from `$` to `>` and back again as we were typing in our loop. The second prompt, `>`, is different to remind us that we haven’t finished typing a complete command yet. A semicolon, `;`, can be used to separate two commands written on a single line.
 
 ~~~
-$ cd ../untrimmed_fastq/
+$ cd ../fq/
 ~~~
 {: .bash}
 
 ~~~
-$ for filename in *.fastq
+$ for filename in *.fq
 > do
 > head -n 2 ${filename}
 > done
@@ -670,7 +605,7 @@ After executing the loop, you should see the first two lines of both fastq files
 will save this information to a file.
 
 ~~~
-$ for filename in *.fastq
+$ for filename in *.fq
 > do
 > head -n 2 ${filename} >> seq_info.txt
 > done
@@ -690,9 +625,9 @@ we're creating and manipulating a new variable called `name`. The line `> echo $
 each time the for loop runs. Because we are iterating over two files, we expect to see two lines of output.
 
 ~~~
-$ for filename in *.fastq
+$ for filename in *.fq
 > do
-> name=$(basename ${filename} .fastq)
+> name=$(basename ${filename} .fq)
 > echo ${name}
 > done
 ~~~

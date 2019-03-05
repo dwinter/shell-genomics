@@ -18,15 +18,15 @@ keypoints:
 
 We've been able to do a lot of work with files that already exist, but what if we want to write our own files. We're not going to type in a FASTA file, but we'll see as we go through other tutorials, there are a lot of reasons we'll want to write a file, or edit an existing file.
 
-To add text to files, we're going to use a text editor called Nano. We're going to create a file to take notes about what we've been doing with the data files in `~/shell_data/untrimmed_fastq`.
+To add text to files, we're going to use a text editor called Nano. We're going to create a file to take notes about what we've been doing with the data files in `~/shell_data/fq`.
 
 This is good practice when working in bioinformatics. We can create a file called a `README.txt` that describes the data files in the directory or documents how the files in that directory were generated.  As the name suggests it's a file that we or others should read to understand the information in that directory.
 
-Let's change our working directory to `~/shell_data/untrimmed_fastq` using `cd`,
+Let's change our working directory to `~/shell_data/fq` using `cd`,
 then run `nano` to create a file called `README.txt`:
 
 ~~~
-$ cd ~/shell_data/untrimmed_fastq
+$ cd ~/shell_data/fq
 $ nano README.txt
 ~~~
 {: .bash}
@@ -113,7 +113,7 @@ One thing we will commonly want to do with sequencing results is pull out bad re
 Bad reads have a lot of N's, so we're going to look for  `NNNNNNNNNN` with `grep`. We want the whole FASTQ record, so we're also going to get the one line above the sequence and the two lines below. We also want to look in all the files that end with `.fastq`, so we're going to use the `*` wild card.
 
 ~~~
-grep -B1 -A2 NNNNNNNNNN *.fastq > scripted_bad_reads.txt
+grep -B1 -A2 NNN *.fq > scripted_bad_reads.txt
 ~~~
 {: .bash}
 
@@ -143,7 +143,7 @@ It will look like nothing happened, but now if you look at `scripted_bad_reads.t
 > 
 > > ## Solution
 > > 
-> > 1. There are 537 / 4 bad reads in the two files combined.
+> > 1. There are 3 bad reads in the two files combined.
 > >    
 > >    ~~~
 > >    $ wc -l scripted_bad_reads.txt
@@ -155,20 +155,6 @@ It will look like nothing happened, but now if you look at `scripted_bad_reads.t
 > >    ~~~
 > >    {: .output}
 > >    
-> >    If you look closely, you will see that there is a `--` delimiter inserted between the non-consecutive matches to grep. This accounts for the extra line. So there are 536 / 4 = 134 total bad reads.
-> > 
-> > 2. There are 536 / 4 bad reads for the `SRR098026.fastq` file and none for the other file.
-> >
-> >    ~~~
-> >    $ cut -d . -f1 scripted_bad_reads.txt | sort | uniq -c
-> >    ~~~
-> >    {: .bash}
-> >
-> >    ~~~
-> >    1 --
-> >    536 SRR098026
-> >    ~~~
-> >    {: .output}
 > {: .solution}
 {: .challenge}
 
@@ -193,7 +179,7 @@ $ ls -l bad-reads-script.sh
 {: .bash}
 
 ~~~
--rw-rw-r-- 1 dcuser dcuser 0 Oct 25 21:46 bad-reads-script.sh
+-rw-r--r-- 1 david david 91 Mar  4 16:08 bad-read-script
 ~~~
 {: .output}
 
@@ -212,7 +198,7 @@ $ ls -l bad-reads-script.sh
 {: .bash}
 
 ~~~
--rwxrwxr-x 1 dcuser dcuser 0 Oct 25 21:46 bad-reads-script.sh
+-rwxr-xr-x 1 david david 91 Mar  4 16:08 bad-read-script
 ~~~
 {: .output}
 
@@ -318,6 +304,10 @@ the ``curl`` command above in the AWS terminal, the file will be downloaded to y
 machine, not your local one.
 
 ### Moving files between your laptop and your instance
+
+We will not cover teh following sections in the workshopa s most of you do not
+have acess to a server to use these commands. However, I've included them in the
+notes as they are very useful commands.
 
 What if the data you need is on your local computer, but you need to get it *into* the
 cloud? There are also several ways to do this, but it's *always* easier

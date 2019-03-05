@@ -30,7 +30,7 @@ you're not already there.
 ~~~
 $ cd
 $ cd shell_data
-$ cd untrimmed_fastq
+$ cd fq
 ~~~
 {: .bash}
 
@@ -78,7 +78,7 @@ $ ls
 {: .bash}
 
 ~~~
-sra_metadata  untrimmed_fastq
+fq  metadata  README
 ~~~
 {: .output}
 
@@ -118,15 +118,16 @@ prints the contents of `/home`, which is one level up from your root directory.
 > > {: .bash}
 > > 
 > > ~~~
-> > .  ..  .hidden	sra_metadata  untrimmed_fastq
+> > .  ..  .hidden_files_start_with_a_dot	fq  metadata  README
+> >
 > > ~~~
 > > {: .output}
 > > 
-> > The name of the hidden directory is `.hidden`. We can navigate to that directory
+> > The name of the hidden directory is `.hidden_files_start_with_a_dot`. We can navigate to that directory
 > > using `cd`. 
 > > 
 > > ~~~
-> > $ cd .hidden
+> > $ cd .hidden_files_start_with_a_dot
 > > ~~~
 > > {: .bash}
 > > 
@@ -167,7 +168,7 @@ $ ls shell_data
 {: .bash}
 
 ~~~
-sra_metadata  untrimmed_fastq
+fq  metadata  README
 ~~~
 {: .output}
 
@@ -180,7 +181,7 @@ Try entering:
 
 ~~~
 $ cd
-$ cd shell_data/untrimmed_fastq
+$ cd shell_data/fq
 ~~~
 {: .bash}
 
@@ -201,7 +202,8 @@ the intermediate directory.
 > > {: .bash}
 > > 
 > > ~~~
-> > SRR097977.fastq  SRR098026.fastq 
+> > Ecan_01.fq  Ecan_02.fq  Ecan_03.fq  Ecan_04.fq  Ecan_05.fq  Ecan_06.fq  Ecan_07.fq  Ecan_08.fq  Ecan_09.fq  Ecan_10.fq  Ecan_11.fq  Ecan_12.fq  Ecan_13.fq  Ecan_14.fq
+> > 
 > > ~~~
 > > {: .output}
 > > 
@@ -240,11 +242,11 @@ directory in `home` which is a directory in `/`.
 Now enter the following command:
 
 ~~~
-$ cd /home/dcuser/shell_data/.hidden
+$ cd /home/dcuser/shell_data/.hidden_files_start_with_a_dot
 ~~~
 {: .bash}
 
-This jumps forward multiple levels to the `.hidden` directory. 
+This jumps forward multiple levels to the hidden directory. 
 Now go back to the home directory. 
 
 ~~~
@@ -252,15 +254,15 @@ $ cd
 ~~~
 {: .bash}
 
-You can also navigate to the `.hidden` directory using:
+You can also navigate to the `.hidden_files_start_with_a_dot` directory using:
 
 ~~~
-$ cd shell_data/.hidden
+$ cd shell_data/.hidden_files_start_with_a_dot
 ~~~
 {: .bash}
 
 
-These two commands have the same effect, they both take us to the `.hidden` directory.
+These two commands have the same effect, they both take us to the `.hidden_files_start_with_a_dot` directory.
 The first uses the absolute path, giving the full address from the home directory. The
 second uses a relative path, giving only the address from the working directory. A full
 path always starts with a `/`. A relative path does not.

@@ -53,22 +53,14 @@ In this lesson you will learn how to use the command line interface to move arou
 On a Mac or Linux machine, you can access a shell through a program called Terminal, which is already available
 on your computer. If you're using Windows, you'll need to download a separate program to access the shell.
 
-We will spend most of our time learning about the basics of the shell
-by manipulating some experimental data. Some of the data we're going to be working with is quite large, and
-we're also going to be using several bioinformatics packages in later
-lessons to work with this data. To avoid having to spend time 
-downloading the data and downloading and installing all of the software,
-we're going to be working with data on a remote server. 
+Becauser genomics datasets are often very large, or require more computing power
+than your laptop has, you will often use a remtoe server for data analysis. In
+almost every case the terminal will be the only way to interact with a served.
 
-You can log-in to the remote server using the instructions 
-[here](http://www.datacarpentry.org/cloud-genomics/02-logging-onto-cloud/#logging-onto-a-cloud-instance). 
-Your instructor will supply the `ip_address` and password that you need to login.
-
-Each of you will have a different `ip_address`. This will 
-prevent us from accidentally changing each other's files as we work through the
-exercises. The password will be the same for everyone. 
-
-After logging in, you will see a screen showing something like this: 
+To launch a terminal session click on your Terminal app (in Mac OS or Linux, 
+including virual box) or open bash git. Depending on your OS, you might get 
+different informatoin when you launch or login to the terminal for the first
+time.
 
 ~~~
 Welcome to Ubuntu 14.04.3 LTS (GNU/Linux 3.13.0-48-generic x86_64)
@@ -97,8 +89,8 @@ Last login: Fri Feb  1 22:34:53 2019 from c-73-116-43-163.hsd1.ca.comcast.net
 ~~~
 {: .output}
 
-This provides a lot of information about the remote server that you're logging in to. We're not going to use most of this information for
-our workshop, so you can clear your screen using the `clear` command. 
+This imformation might be useful sometimg, but we're not going to use it in 
+our workshop. Let's clear your screen using the `clear` command. 
 
 ~~~
 $ clear
@@ -196,7 +188,7 @@ $ ls
 {: .bash}
 
 ~~~
-sra_metadata  untrimmed_fastq
+fq  metadata  README
 ~~~
 {: .output}
 
@@ -212,7 +204,7 @@ $ ls -F
 {: .bash}
 
 ~~~
-sra_metadata/  untrimmed_fastq/
+fq  metadata  README
 ~~~
 {: .output}
 
@@ -244,8 +236,9 @@ to quit.
 > > 
 > > ~~~
 > > total 8
-> > drwxr-x--- 2 dcuser dcuser 4096 Jul 30  2015 sra_metadata
-> > drwxr-xr-x 2 dcuser dcuser 4096 Nov 15  2017 untrimmed_fastq
+> > drwxr-xr-x 2 david david 4096 Feb 27 15:06 fq
+> > drwxr-xr-x 2 david david 4096 Feb 27 15:12 metadata
+> > -rw-r--r-- 1 david david    0 Feb 27 15:12 README
 > > ~~~
 > > {: .output}
 > > 
@@ -260,20 +253,20 @@ No one can possibly learn all of these arguments, that's why the manual page
 is for. You can (and should) refer to the manual page or other help files
 as needed.
 
-Let's go into the `untrimmed_fastq` directory and see what is in there.
+Let's go into the `fq` directory and see what is in there.
 
 ~~~
-$ cd untrimmed_fastq
+$ cd fq
 $ ls -F
 ~~~
 {: .bash}
 
 ~~~
-SRR097977.fastq  SRR098026.fastq
+Ecan_01.fq  Ecan_02.fq  Ecan_03.fq  Ecan_04.fq  Ecan_05.fq  Ecan_06.fq  Ecan_07.fq  Ecan_08.fq  Ecan_09.fq  Ecan_10.fq  Ecan_11.fq  Ecan_12.fq  Ecan_13.fq  Ecan_14.fq
 ~~~
 {: .output}
 
-This directory contains two files with `.fastq` extensions. FASTQ is a format
+This directory contains two files with `.fq` extensions. FASTQ is a format
 for storing information about sequencing reads and their quality.
 We will be learning more about FASTQ files in a later lesson.
 
@@ -302,11 +295,11 @@ $ cd she<tab>
 The shell will fill in the rest of the directory name for
 `shell_data`.
 
-Now change directories to `untrimmed_fastq` in `shell_data`
+Now change directories to `fq` in `shell_data`
 
 ~~~
 $ cd shell_data
-$ cd untrimmed_fastq
+$ cd fq
 ~~~
 {: .bash}
 
@@ -314,28 +307,28 @@ Using tab complete can be very helpful. However, it will only autocomplete
 a file or directory name if you've typed enough characters to provide
 a unique identifier for the file or directory you are trying to access.
 
-If we navigate back to our `untrimmed_fastq` directory and try to access one
+If we navigate back to our `fq` directory and try to access one
 of our sample files:
 
 ~~~
 $ cd
 $ cd shell_data
-$ cd untrimmed_fastq
-$ ls SR<tab>
+$ cd fq
+$ ls E<tab>
 ~~~
 {: .bash}
 
-The shell auto-completes your command to `SRR09`, because all file names in 
+The shell auto-completes your command to `Ecan_`, because all file names in 
 the directory begin with this prefix. When you hit
 <kbd>Tab</kbd> again, the shell will list the possible choices.
 
 ~~~
-$ ls SRR09<tab><tab>
+$ ls Ecan_<tab><tab>
 ~~~
 {: .bash}
 
 ~~~
-SRR097977.fastq  SRR098026.fastq
+Ecan_01.fq  Ecan_02.fq  Ecan_03.fq  Ecan_04.fq  Ecan_05.fq  Ecan_06.fq  Ecan_07.fq  Ecan_08.fq  Ecan_09.fq  Ecan_10.fq  Ecan_11.fq  Ecan_12.fq  Ecan_13.fq  Ecan_14.fq
 ~~~
 {: .output}
 
